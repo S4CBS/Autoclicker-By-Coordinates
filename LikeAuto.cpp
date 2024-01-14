@@ -95,7 +95,7 @@ int main() {
     if (answer == 'y' || answer == 'Y') {
         system("cls");
         // Запуск get_cords.exe
-        system("get_cords.exe");
+        system("python get_cords.py");
         system("cls");
     }
     else if (answer == 'n' || answer == 'N') {
