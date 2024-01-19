@@ -70,10 +70,25 @@ void handleKeyPress() {
             this_thread::sleep_for(chrono::milliseconds(1000));
         }
         else if (GetAsyncKeyState(VK_INSERT) & 0x8000) {  // Клавиша Insert
+            system("cls");
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED);
             cout << "Program closed by user, wait 5 seconds to exit." << endl;
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-            this_thread::sleep_for(chrono::seconds(5));
+            isRunning = false;
+            this_thread::sleep_for(chrono::seconds(1));
+            system("cls");
+            for (int i = 5; i >= 0; --i) {
+                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED);
+                cout << "Countdown: " << i << endl;
+                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+                if (i == 0) {
+                    system("cls");
+                    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED);
+                    cout << "The program is closing! Bye bye";
+                    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+                }
+                this_thread::sleep_for(chrono::seconds(1));
+            }
             exit(0);
         }
         this_thread::sleep_for(chrono::milliseconds(100));
@@ -94,7 +109,6 @@ int main() {
 
     if (answer == 'y' || answer == 'Y') {
         system("cls");
-        // Запуск get_cords.exe
         system("python get_cords.py");
         system("cls");
     }
@@ -105,16 +119,20 @@ int main() {
         if (!configFile.is_open()) {
             cerr << "File " << filename << " not found. Countdown initiated." << endl;
 
-            for (int i = 10; i >= 0; --i) {
+            for (int i = 5; i >= 0; --i) {
                 cout << "Countdown: " << i << endl;
                 this_thread::sleep_for(chrono::seconds(1));
             }
 
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED);
-            cout << "Program closed. File " << filename << " not found." << endl;
+            cout << "Program closed. File " << filename << " not found." << "Program rerun" << endl;
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 
-            return 0;  // Завершение программы после отсчета
+            this_thread::sleep_for(chrono::seconds(1));
+
+            system("cls");
+            main();
+
         }
         system("cls");
     }
